@@ -1,7 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { getCountryByIP } = require("../utils/geolocation");
-const AppDataSource = require("../src/data-source");
 const {
   getOtpRepository,
   getUserRepository,
@@ -86,7 +85,7 @@ const verifyOTP = async (req, res, next) => {
       return res.status(400).json({ message: "OTP expired" });
 
     // Mark user as verified
-    const userRepo = AppDataSource.getRepository("User");
+    const userRepo = getUserRepository("User");
     await userRepo.update(userId, { is_verified: true });
 
     // Delete used OTP
